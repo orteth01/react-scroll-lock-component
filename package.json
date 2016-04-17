@@ -1,5 +1,5 @@
 {
-  "name": "react-scroll-lock",
+  "name": "react-scroll-lock-component",
   "version": "0.0.1",
   "description": "A React component wrapper that restricts scrolling capabilities of everything except for its children.",
   "main": "index.js",
@@ -33,5 +33,9 @@
     "sass-loader": "^3.2.0",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.0"
+  },
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/orteth01/react-scroll-lock-component"
   }
 }

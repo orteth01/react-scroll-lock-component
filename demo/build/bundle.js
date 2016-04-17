@@ -20110,33 +20110,18 @@
 	            _react2.default.createElement(
 	              'h2',
 	              null,
-	              'Scroll Me..'
+	              'Scroll Me...'
 	            ),
 	            _react2.default.createElement(
 	              'p',
 	              null,
-	              'Only content within this box should scroll. You\'ll notice that when you scroll to the top or bottom of this container it has no effect on the other parts of the page'
+	              'Only content within this box should scroll. When you scroll to the top or bottom of this container it has no effect on the other parts of the page'
 	            ),
 	            _react2.default.createElement('hr', null),
 	            _react2.default.createElement(
 	              'p',
-	              null,
-	              'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
-	            ),
-	            _react2.default.createElement(
-	              'p',
-	              null,
-	              'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
-	            ),
-	            _react2.default.createElement(
-	              'p',
-	              null,
-	              'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
-	            ),
-	            _react2.default.createElement(
-	              'p',
-	              null,
-	              'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+	              { className: 'lorem-ipsum' },
+	              'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
 	            )
 	          )
 	        ),
@@ -20146,62 +20131,22 @@
 	          _react2.default.createElement(
 	            'h2',
 	            null,
-	            'Scroll Me..'
+	            'Scroll Me...'
 	          ),
 	          _react2.default.createElement(
 	            'p',
 	            null,
-	            'Should look normal! The page scrolls as expected! Gucci!'
+	            'Should look normal! The page scrolls as expected!'
 	          ),
 	          _react2.default.createElement('hr', null),
 	          _react2.default.createElement(
 	            'p',
-	            null,
+	            { className: 'lorem-ipsum' },
 	            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
 	          ),
 	          _react2.default.createElement(
 	            'p',
-	            null,
-	            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
-	          ),
-	          _react2.default.createElement(
-	            'p',
-	            null,
-	            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
-	          ),
-	          _react2.default.createElement(
-	            'p',
-	            null,
-	            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
-	          ),
-	          _react2.default.createElement(
-	            'p',
-	            null,
-	            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
-	          ),
-	          _react2.default.createElement(
-	            'p',
-	            null,
-	            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
-	          ),
-	          _react2.default.createElement(
-	            'p',
-	            null,
-	            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
-	          ),
-	          _react2.default.createElement(
-	            'p',
-	            null,
-	            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
-	          ),
-	          _react2.default.createElement(
-	            'p',
-	            null,
-	            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
-	          ),
-	          _react2.default.createElement(
-	            'p',
-	            null,
+	            { className: 'lorem-ipsum' },
 	            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
 	          )
 	        )
@@ -20370,7 +20315,7 @@
 	exports.push([module.id, "@import url(https://fonts.googleapis.com/css?family=Roboto:400,100,700);", ""]);
 
 	// module
-	exports.push([module.id, "* {\n  margin: 0;\n  padding: 0; }\n\nhtml,\nbody {\n  height: 100%;\n  width: 100%;\n  font-family: 'Roboto', sans-serif; }\n\nh2 {\n  font-size: 36px;\n  margin-bottom: 15px;\n  font-weight: 400; }\n\np {\n  font-size: 16px;\n  margin: 30px 0;\n  font-weight: 100;\n  line-height: 1.8; }\n\n.demo {\n  background-color: #27608C;\n  color: #ffffff;\n  height: 300%;\n  width: 100%; }\n\n.aside {\n  background-color: #5c91ff;\n  color: #000000;\n  float: left;\n  height: 300px;\n  width: 400px;\n  overflow: scroll;\n  padding: 50px;\n  margin: 30px 50px; }\n\n.main {\n  padding: 50px; }\n\n@media screen and (max-width: 600px) {\n  .aside {\n    margin: 0;\n    width: auto; } }\n", ""]);
+	exports.push([module.id, "* {\n  margin: 0;\n  padding: 0; }\n\nhtml,\nbody {\n  height: 100%;\n  width: 100%;\n  font-family: 'Roboto', sans-serif; }\n\nh2 {\n  font-size: 36px;\n  margin-bottom: 15px;\n  font-weight: 400; }\n\np {\n  font-size: 18px;\n  margin: 30px 0;\n  font-weight: 100;\n  line-height: 1.8; }\n\n.demo {\n  background-color: #27608C;\n  color: #ffffff;\n  height: 300%;\n  width: 100%; }\n\n.aside {\n  background-color: #5c91ff;\n  color: #000000;\n  float: left;\n  height: 300px;\n  width: 400px;\n  overflow: scroll;\n  padding: 50px;\n  margin: 30px 50px; }\n\n.main {\n  padding: 50px; }\n\n.lorem-ipsum {\n  font-size: 40px; }\n\n@media screen and (max-width: 600px) {\n  .aside {\n    margin: 0;\n    width: auto; } }\n", ""]);
 
 	// exports
 

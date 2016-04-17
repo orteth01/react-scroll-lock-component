@@ -1,5 +1,5 @@
 # react-scroll-lock
-A React component wrapper that restricts scrolling capabilities of everything except for its children. Check out this very simple [demo](orteth01.github.io/react-scroll-lock/demo)
+A React component wrapper that restricts scrolling capabilities of everything except for its children. Check out this very simple [demo](https://orteth01.github.io/react-scroll-lock-component/demo)
 
 ### Installation
 ```

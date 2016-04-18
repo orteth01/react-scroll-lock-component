@@ -1,11 +1,7 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 
 class ScrollLock extends Component {
-
-  static propTypes = {
-    children: PropTypes.array.isRequired
-  };
-
+  
   componentDidMount() {
     this.scrollingElement = this.refs.scrollLock.firstChild;
     this.scrollingElement.addEventListener('wheel', this.onScrollHandler, false);

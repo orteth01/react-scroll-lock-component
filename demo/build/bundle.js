@@ -20110,7 +20110,7 @@
 	            _react2.default.createElement(
 	              'h2',
 	              null,
-	              'Scroll Me...'
+	              'Scroll Here...'
 	            ),
 	            _react2.default.createElement(
 	              'p',
@@ -20131,7 +20131,7 @@
 	          _react2.default.createElement(
 	            'h2',
 	            null,
-	            'Scroll Me...'
+	            'Scroll Here...'
 	          ),
 	          _react2.default.createElement(
 	            'p',
@@ -20274,9 +20274,6 @@
 	  return ScrollLock;
 	}(_react.Component);
 
-	ScrollLock.propTypes = {
-	  children: _react.PropTypes.array.isRequired
-	};
 	exports.default = ScrollLock;
 	//# sourceMappingURL=ScrollLock.js.map
 

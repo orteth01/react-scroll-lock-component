@@ -1,5 +1,5 @@
-[![npm version](https://badge.fury.io/js/react-scroll-lock-component.svg)](https://badge.fury.io/js/react-scroll-lock-component)
 # react-scroll-lock-component
+[![npm version](https://badge.fury.io/js/react-scroll-lock-component.svg)](https://badge.fury.io/js/react-scroll-lock-component)
 A React component wrapper that restricts scrolling capabilities of everything except for its children
 
 ### Demo

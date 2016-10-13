@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
 
 class ScrollLock extends Component {
-  
   componentDidMount() {
-    this.scrollingElement = this.refs.scrollLock.firstChild;
     this.scrollingElement.addEventListener('wheel', this.onScrollHandler, false);
-  };
+  }
 
   componentWillUnmount() {
     this.scrollingElement.removeEventListener('wheel', this.onScrollHandler, false);
-  };
+  }
 
   onScrollHandler = (e) => {
     const elem = this.scrollingElement;
@@ -36,7 +34,7 @@ class ScrollLock extends Component {
 
   render() {
     return (
-      <div ref="scrollLock">
+      <div ref={r => this.scrollingElement = r.firstChild}>
         {this.props.children}
       </div>
     );

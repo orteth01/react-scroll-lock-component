@@ -1,6 +1,6 @@
 {
   "name": "react-scroll-lock-component",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "A React component wrapper that restricts scrolling capabilities of everything except for its children.",
   "main": "index.js",
   "scripts": {

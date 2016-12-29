@@ -9,6 +9,10 @@ class ScrollLock extends Component {
     this.scrollingElement.removeEventListener('wheel', this.onScrollHandler, false);
   }
 
+  setScrollingElement = (r) => {
+    this.scrollingElement = r ? r.firstChild : r;
+  };
+
   onScrollHandler = (e) => {
     const elem = this.scrollingElement;
     const { scrollTop, scrollHeight, clientHeight } = elem;
@@ -34,7 +38,7 @@ class ScrollLock extends Component {
 
   render() {
     return (
-      <div ref={r => this.scrollingElement = r.firstChild}>
+      <div ref={this.setScrollingElement}>
         {this.props.children}
       </div>
     );

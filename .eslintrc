@@ -1,0 +1,16 @@
+{
+    "env": {
+        "node": true
+    },
+    "parser": "babel-eslint",
+    "ecmaFeatures": {
+        "jsx": true
+    },
+    "extends": "eslint-config-airbnb",
+    "rules": {
+        "import/no-extraneous-dependencies": 0,
+        "indent": ["error", 4],
+        "react/jsx-indent": ["error", 4],
+        "react/prop-types": 0
+    }
+}

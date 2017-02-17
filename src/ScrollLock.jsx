@@ -5,6 +5,14 @@ class ScrollLock extends Component {
     this.scrollingElement.addEventListener('wheel', this.onScrollHandler, false);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.enabled) {
+      this.scrollingElement.addEventListener('wheel', this.onScrollHandler, false)
+    } else {
+      this.scrollingElement.removeEventListener('wheel', this.onScrollHandler, false)
+    }
+  }
+
   componentWillUnmount() {
     this.scrollingElement.removeEventListener('wheel', this.onScrollHandler, false);
   }

@@ -30,10 +30,13 @@ class ScrollLock extends Component {
   };
 
   cancelScrollEvent = (e) => {
-    e.stopImmediatePropagation();
-    e.preventDefault();
-    e.returnValue = false;
-    return false;
+    const { enabled } = this.props
+    if (enabled) {
+      e.stopImmediatePropagation();
+      e.preventDefault();
+      e.returnValue = false;
+      return false;
+    }
   };
 
   render() {
@@ -44,5 +47,9 @@ class ScrollLock extends Component {
     );
   }
 }
+
+ScrollLock.defaultProps = {
+  enabled: true
+};
 
 export default ScrollLock;

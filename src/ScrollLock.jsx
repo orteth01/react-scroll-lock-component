@@ -38,13 +38,10 @@ class ScrollLock extends Component {
   };
 
   cancelScrollEvent = (e) => {
-    const { enabled } = this.props
-    if (enabled) {
-      e.stopImmediatePropagation();
-      e.preventDefault();
-      e.returnValue = false;
-      return false;
-    }
+    e.stopImmediatePropagation();
+    e.preventDefault();
+    e.returnValue = false;
+    return false;
   };
 
   render() {

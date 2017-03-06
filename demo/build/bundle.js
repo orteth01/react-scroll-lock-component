@@ -21719,7 +21719,18 @@
 	  _createClass(ScrollLock, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
-	      this.scrollingElement.addEventListener('wheel', this.onScrollHandler, false);
+	      if (this.props.enabled) {
+	        this.scrollingElement.addEventListener('wheel', this.onScrollHandler, false);
+	      }
+	    }
+	  }, {
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(nextProps) {
+	      if (nextProps.enabled) {
+	        this.scrollingElement.addEventListener('wheel', this.onScrollHandler, false);
+	      } else {
+	        this.scrollingElement.removeEventListener('wheel', this.onScrollHandler, false);
+	      }
 	    }
 	  }, {
 	    key: 'componentWillUnmount',
@@ -21735,6 +21746,10 @@
 
 	  return ScrollLock;
 	}(_react.Component);
+
+	ScrollLock.defaultProps = {
+	  enabled: true
+	};
 
 	exports.default = ScrollLock;
 	//# sourceMappingURL=ScrollLock.js.map

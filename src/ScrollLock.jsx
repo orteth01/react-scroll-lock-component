@@ -2,7 +2,17 @@ import React, { Component } from 'react';
 
 class ScrollLock extends Component {
   componentDidMount() {
-    this.scrollingElement.addEventListener('wheel', this.onScrollHandler, false);
+    if (this.props.enabled) {
+      this.scrollingElement.addEventListener('wheel', this.onScrollHandler, false)
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.enabled) {
+      this.scrollingElement.addEventListener('wheel', this.onScrollHandler, false)
+    } else {
+      this.scrollingElement.removeEventListener('wheel', this.onScrollHandler, false)
+    }
   }
 
   componentWillUnmount() {
@@ -44,5 +54,9 @@ class ScrollLock extends Component {
     );
   }
 }
+
+ScrollLock.defaultProps = {
+  enabled: true
+};
 
 export default ScrollLock;

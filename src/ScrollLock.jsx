@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 
 class ScrollLock extends Component {
   componentDidMount() {
-    const { enabled } = this.props
-    if (enabled) {
+    if (this.props.enabled) {
       this.scrollingElement.addEventListener('wheel', this.onScrollHandler, false)
     }
   }

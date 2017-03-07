@@ -12,6 +12,7 @@
         "indent": ["error", 4],
         "react/jsx-indent": ["error", 4],
         "react/prop-types": 0,
-        "comma-dangle": ["error", "never"]
+        "comma-dangle": ["error", "never"],
+        "class-methods-use-this": 0
     }
 }

@@ -17,7 +17,7 @@ class ScrollLock extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (this.props.enabled !== nextProps.enabled){
+        if (this.props.enabled !== nextProps.enabled) {
             const fn = nextProps.enabled ? this.listenToWheelEvent : this.stopListeningToWheelEvent;
             fn();
         }
@@ -25,14 +25,6 @@ class ScrollLock extends Component {
 
     componentWillUnmount() {
         this.stopListeningToWheelEvent();
-    }
-
-    listenToWheelEvent() {
-        this.scrollingElement.addEventListener('wheel', this.onScrollHandler, false);
-    }
-
-    stopListeningToWheelEvent() {
-        this.scrollingElement.removeEventListener('wheel', this.onScrollHandler, false);
     }
 
     onScrollHandler(e) {
@@ -53,17 +45,25 @@ class ScrollLock extends Component {
         if (shouldCancelScroll) {
             this.cancelScrollEvent(e);
         }
-    };
+    }
 
     setScrollingElement(r) {
         this.scrollingElement = r && r.firstChild;
-    };
+    }
 
     cancelScrollEvent(e) {
         e.stopImmediatePropagation();
         e.preventDefault();
         return false;
-    };
+    }
+
+    listenToWheelEvent() {
+        this.scrollingElement.addEventListener('wheel', this.onScrollHandler, false);
+    }
+
+    stopListeningToWheelEvent() {
+        this.scrollingElement.removeEventListener('wheel', this.onScrollHandler, false);
+    }
 
     render() {
         return (

@@ -8,7 +8,9 @@
     "clean": "rm -rf ./lib",
     "build-modules": "babel ./src --optional runtime --out-dir ./lib --source-maps",
     "build": "npm run clean && npm run build-modules",
-    "build-demo": "cd demo && webpack"
+    "build-demo": "cd demo && webpack",
+    "test": "jest --config ./.jestrc",
+    "cover": "jest --config ./.jestrc --coverage"
   },
   "keywords": [
     "React",
@@ -29,13 +31,16 @@
     "babel-preset-react": "^6.23.0",
     "babel-preset-stage-0": "^6.22.0",
     "css-loader": "^0.26.2",
+    "enzyme-to-json": "^1.5.0",
     "eslint": "^3.17.0",
     "eslint-config-airbnb": "^14.1.0",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-react": "^6.10.0",
+    "jest": "^19.0.2",
     "node-sass": "^4.5.0",
     "react": "^15.4.2",
+    "react-addons-test-utils": "^15.4.2",
     "react-dom": "^15.4.2",
     "sass-loader": "^6.0.2",
     "style-loader": "^0.13.2",
@@ -44,5 +49,8 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/orteth01/react-scroll-lock-component"
+  },
+  "dependencies": {
+    "enzyme": "^2.7.1"
   }
 }

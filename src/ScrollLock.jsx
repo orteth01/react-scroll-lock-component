@@ -1,31 +1,47 @@
 import React, { Component } from 'react';
 
 class ScrollLock extends Component {
+    constructor(props) {
+        super(props);
+        this.listenToWheelEvent = this.listenToWheelEvent.bind(this);
+        this.stopListeningToWheelEvent = this.stopListeningToWheelEvent.bind(this);
+        this.onScrollHandler = this.onScrollHandler.bind(this);
+        this.setScrollingElement = this.setScrollingElement.bind(this);
+        this.cancelScrollEvent = this.cancelScrollEvent.bind(this);
+    }
+
     componentDidMount() {
         if (this.props.enabled) {
-            this.scrollingElement.addEventListener('wheel', this.onScrollHandler, false);
+            this.listenToWheelEvent();
         }
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.enabled) {
-            this.scrollingElement.addEventListener('wheel', this.onScrollHandler, false);
-        } else {
-            this.scrollingElement.removeEventListener('wheel', this.onScrollHandler, false);
+        if (this.props.enabled !== nextProps.enabled){
+            const fn = nextProps.enabled ? this.listenToWheelEvent : this.stopListeningToWheelEvent;
+            fn();
         }
     }
 
     componentWillUnmount() {
+        this.stopListeningToWheelEvent();
+    }
+
+    listenToWheelEvent() {
+        this.scrollingElement.addEventListener('wheel', this.onScrollHandler, false);
+    }
+
+    stopListeningToWheelEvent() {
         this.scrollingElement.removeEventListener('wheel', this.onScrollHandler, false);
     }
 
-    onScrollHandler = (e) => {
+    onScrollHandler(e) {
         const elem = this.scrollingElement;
         const { scrollTop, scrollHeight, clientHeight } = elem;
         const wheelDelta = e.deltaY;
         const isDeltaPositive = wheelDelta > 0;
-        let shouldCancelScroll = false;
 
+        let shouldCancelScroll = false;
         if (isDeltaPositive && wheelDelta > scrollHeight - clientHeight - scrollTop) {
             elem.scrollTop = scrollHeight;
             shouldCancelScroll = true;
@@ -39,11 +55,11 @@ class ScrollLock extends Component {
         }
     };
 
-    setScrollingElement = (r) => {
-        this.scrollingElement = r ? r.firstChild : r;
+    setScrollingElement(r) {
+        this.scrollingElement = r && r.firstChild;
     };
 
-    cancelScrollEvent = (e) => {
+    cancelScrollEvent(e) {
         e.stopImmediatePropagation();
         e.preventDefault();
         return false;

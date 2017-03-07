@@ -8,11 +8,11 @@ module.exports = {
     loaders: [
       {
         test:   /\.js/,
-        loaders: ['babel']
+        loaders: ['babel-loader']
       },
       {
         test: /\.scss$/,
-        loaders: ['style', 'css', 'sass']
+        loaders: ['style-loader', 'css-loader', 'sass-loader']
       }
     ]
   }

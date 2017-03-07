@@ -1,0 +1,23 @@
+{
+    "resetMocks": true,
+    "roots": [
+        "<rootDir>/test",
+        "<rootDir>/src"
+    ],
+    "testRegex" : ".*test.jsx",
+    "testPathIgnorePatterns": [
+        "__snapshots__",
+        "<rootDir>/node_modules/"
+    ],
+
+    "coverageDirectory": "./coverage",
+    "coverageThreshold": {
+        "global": {
+            "lines": 93
+        }
+    },
+    "coverageReporters": [
+        "lcov",
+        "text"
+    ]
+}

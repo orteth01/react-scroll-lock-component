@@ -1,43 +1,65 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 
 class ScrollLock extends Component {
+    static propTypes = {
+        enabled: PropTypes.bool,
+        className: PropTypes.string
+    }
+
+    static defaultProps = {
+        enabled: true,
+        className: ''
+    }
+
     constructor(props) {
         super(props);
-        this.listenToWheelEvent = this.listenToWheelEvent.bind(this);
-        this.stopListeningToWheelEvent = this.stopListeningToWheelEvent.bind(this);
-        this.onScrollHandler = this.onScrollHandler.bind(this);
-        this.setScrollingElement = this.setScrollingElement.bind(this);
-        this.cancelScrollEvent = this.cancelScrollEvent.bind(this);
+        [
+            'listenToScrollEvents',
+            'stopListeningToScrollEvents',
+            'handleEventDelta',
+            'onWheelHandler',
+            'onTouchStartHandler',
+            'onTouchMoveHandler',
+            'setScrollingElement',
+            'cancelScrollEvent'
+        ].forEach((func) => { this[func] = this[func].bind(this); });
     }
 
     componentDidMount() {
         if (this.props.enabled) {
-            this.listenToWheelEvent();
+            this.listenToScrollEvents(this.scrollingElement);
         }
+    }
+    componentWillUnmount() {
+        this.stopListeningToScrollEvents(this.scrollingElement);
     }
 
     componentWillReceiveProps(nextProps) {
         if (this.props.enabled !== nextProps.enabled) {
-            const fn = nextProps.enabled ? this.listenToWheelEvent : this.stopListeningToWheelEvent;
-            fn();
+            const fn = nextProps.enabled ?
+                this.listenToScrollEvents :
+                this.stopListeningToScrollEvents;
+
+            fn(this.scrollingElement);
         }
     }
 
-    componentWillUnmount() {
-        this.stopListeningToWheelEvent();
+    setScrollingElement(r) {
+        this.scrollingElement = r && r.firstChild;
     }
 
-    onScrollHandler(e) {
+    handleEventDelta(e, delta) {
+        const isDeltaPositive = delta > 0;
         const elem = this.scrollingElement;
         const { scrollTop, scrollHeight, clientHeight } = elem;
-        const wheelDelta = e.deltaY;
-        const isDeltaPositive = wheelDelta > 0;
 
         let shouldCancelScroll = false;
-        if (isDeltaPositive && wheelDelta > scrollHeight - clientHeight - scrollTop) {
+        if (isDeltaPositive && delta > scrollHeight - clientHeight - scrollTop) {
+            // bottom limit
             elem.scrollTop = scrollHeight;
             shouldCancelScroll = true;
-        } else if (!isDeltaPositive && -wheelDelta > scrollTop) {
+        } else if (!isDeltaPositive && -delta > scrollTop) {
+            // top limit
             elem.scrollTop = 0;
             shouldCancelScroll = true;
         }
@@ -47,8 +69,18 @@ class ScrollLock extends Component {
         }
     }
 
-    setScrollingElement(r) {
-        this.scrollingElement = r && r.firstChild;
+    onWheelHandler(e) {
+        this.handleEventDelta(e, e.deltaY);
+    }
+
+    onTouchStartHandler(e) {
+        // set touch start so we can calculate touchmove delta
+        this.touchStart = e.changedTouches[0].clientY;
+    }
+
+    onTouchMoveHandler(e) {
+        const delta = this.touchStart - e.changedTouches[0].clientY;
+        this.handleEventDelta(e, delta);
     }
 
     cancelScrollEvent(e) {
@@ -57,25 +89,25 @@ class ScrollLock extends Component {
         return false;
     }
 
-    listenToWheelEvent() {
-        this.scrollingElement.addEventListener('wheel', this.onScrollHandler, false);
+    listenToScrollEvents(el) {
+        el.addEventListener('wheel', this.onWheelHandler, false);
+        el.addEventListener('touchstart', this.onTouchStartHandler, false);
+        el.addEventListener('touchmove', this.onTouchMoveHandler, false);
     }
 
-    stopListeningToWheelEvent() {
-        this.scrollingElement.removeEventListener('wheel', this.onScrollHandler, false);
+    stopListeningToScrollEvents(el) {
+        el.removeEventListener('wheel', this.onWheelHandler, false);
+        el.removeEventListener('touchstart', this.onTouchStartHandler, false);
+        el.removeEventListener('touchmove', this.onTouchMoveHandler, false);
     }
 
     render() {
         return (
-            <div ref={this.setScrollingElement}>
+            <div className={this.props.className} ref={this.setScrollingElement}>
                 {this.props.children}
             </div>
         );
     }
 }
-
-ScrollLock.defaultProps = {
-    enabled: true
-};
 
 export default ScrollLock;

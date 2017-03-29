@@ -11,6 +11,7 @@
         "import/no-extraneous-dependencies": 0,
         "indent": ["error", 4],
         "react/jsx-indent": ["error", 4],
+        "react/sort-comp": 0,
         "react/prop-types": 0,
         "comma-dangle": ["error", "never"],
         "class-methods-use-this": 0

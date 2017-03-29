@@ -1,142 +1,274 @@
 import React from 'react';
 import assert from 'assert';
 import ScrollLock from '../src/ScrollLock';
-import {mount, shallow} from 'enzyme';
+import {shallow} from 'enzyme';
 
 describe('ScrollLock', () => {
-    describe('cancelScrollEvent component method', () => {
-        it('should cancel scroll event', () => {
-            const synthEvent = {
-                stopImmediatePropagation: jest.fn(),
-                preventDefault: jest.fn()
-            };
-            const containerInstance = shallow(
-                <ScrollLock>
-                    <div/>
-                </ScrollLock>
-            ).instance();
-
-            containerInstance.cancelScrollEvent(synthEvent);
-
-            expect(synthEvent.stopImmediatePropagation).toBeCalled();
-            expect(synthEvent.preventDefault).toBeCalled();
-        });
-    });
-    describe('setScrollingElement component method', () => {
-        it('should set the scrolling element to firstChild', () => {
-            const containerInstance = shallow(
-                <ScrollLock>
-                    <div/>
-                </ScrollLock>
-            ).instance();
-
-            assert.equal(containerInstance.scrollingElement, undefined);
-
-            const firstChild = <div>BLAH BLAH TEST BLAH</div>;
-            containerInstance.setScrollingElement({firstChild});
-
-            assert.equal(containerInstance.scrollingElement, firstChild);
-        });
-        it('should set the scrolling element to undefined if no argument passed', () => {
-            const containerInstance = shallow(
-                <ScrollLock>
-                    <div/>
-                </ScrollLock>
-            ).instance();
-
-            containerInstance.setScrollingElement();
-
-            assert.equal(containerInstance.scrollingElement, undefined);
-        });
-    });
-    describe('onScrollHandler component method', () => {
-        beforeEach(() => {
-            ScrollLock.prototype.cancelScrollEvent = jest.fn();
-        });
-        it('should cancel scroll event if attempting to scroll up past top of scroll lock', () => {
-            const containerInstance = shallow(
-                <ScrollLock>
-                    <div/>
-                </ScrollLock>
-            ).instance();
-            containerInstance.scrollingElement = {
-                scrollTop: 50,
-                scrollHeight: 450,
-                clientHeight: 400
-            };
-            containerInstance.onScrollHandler({deltaY: -60});
-
-            // scroll top should be 0
-            assert.equal(containerInstance.scrollingElement.scrollTop, 0);
-            expect(ScrollLock.prototype.cancelScrollEvent).toBeCalled();
-        });
-        it('should cancel scroll event if attempting to scroll down past bottom of scroll lock', () => {
-            const scrollHeight = 450;
-            const containerInstance = shallow(
-                <ScrollLock>
-                    <div/>
-                </ScrollLock>
-            ).instance();
-            containerInstance.scrollingElement = {
-                scrollTop: 400,
-                scrollHeight,
-                clientHeight: 400
-            };
-            containerInstance.onScrollHandler({deltaY: 60});
-
-            // scroll top should be scrollHeight of scrollingElement
-            assert.equal(containerInstance.scrollingElement.scrollTop, scrollHeight);
-            expect(ScrollLock.prototype.cancelScrollEvent).toBeCalled();
-        });
-    });
     describe('component lifecycle methods', () => {
-        beforeEach(() => {
-            ScrollLock.prototype.listenToWheelEvent = jest.fn();
-            ScrollLock.prototype.stopListeningToWheelEvent = jest.fn();
+        afterEach(() => {
+            jest.resetAllMocks();
         });
-        it('should add wheel event listener to child component on mount', () => {
-            const container = mount(
+        it('componentDidMount - enabled', () => {
+            const component = shallow(
                 <ScrollLock>
                     <div/>
                 </ScrollLock>
-            );
-            expect(ScrollLock.prototype.listenToWheelEvent).toBeCalled();
+            ).instance();
+            component.listenToScrollEvents = jest.fn();
+
+            component.componentDidMount();
+
+            expect(component.listenToScrollEvents).toBeCalled();
         });
-        it('should not add wheel event listener to child component on mount if enabled=false', () => {
-            const container = mount(
+        it('componentDidMount - enabled=false', () => {
+            const component = shallow(
                 <ScrollLock enabled={false}>
                     <div/>
                 </ScrollLock>
-            );
-            expect(ScrollLock.prototype.listenToWheelEvent).toHaveBeenCalledTimes(0);
+            ).instance();
+            component.listenToScrollEvents = jest.fn();
+
+            component.componentDidMount();
+
+            expect(component.listenToScrollEvents).toHaveBeenCalledTimes(0);
         });
-        it('should remove child component wheel event listener on unmount', () => {
-            const container = mount(
+        it('componentWillUnmount', () => {
+            const component = shallow(
+                <ScrollLock enabled={false}>
+                    <div/>
+                </ScrollLock>
+            ).instance();
+            component.stopListeningToScrollEvents = jest.fn();
+
+            component.componentWillUnmount();
+
+            expect(component.stopListeningToScrollEvents).toBeCalled();
+        });
+        it('componentWillReceiveProps - disabled to enabled', () => {
+            const component = shallow(
+                <ScrollLock enabled={false}>
+                    <div/>
+                </ScrollLock>
+            ).instance();
+            component.listenToScrollEvents = jest.fn();
+
+            component.componentWillReceiveProps({enabled: true});
+
+            expect(component.listenToScrollEvents).toBeCalled();
+        });
+        it('componentWillReceiveProps - enabled to disabled', () => {
+            const component = shallow(
                 <ScrollLock>
                     <div/>
                 </ScrollLock>
-            );
-            container.unmount();
-            expect(ScrollLock.prototype.stopListeningToWheelEvent).toBeCalled();
-        });
-        it('should add or remove wheel event listener when enabled prop changes', () => {
-            const container = mount(
-                <ScrollLock>
-                    <div/>
-                </ScrollLock>
-            );
-            // disable
-            container.setProps({enabled: false});
-            // enable
-            container.setProps({enabled: true});
+            ).instance();
+            component.stopListeningToScrollEvents = jest.fn();
 
-            // called on mount and when re enabled
-            expect(ScrollLock.prototype.listenToWheelEvent).toHaveBeenCalledTimes(2);
+            component.componentWillReceiveProps({enabled: false});
 
-            // called when disabled
-            expect(ScrollLock.prototype.stopListeningToWheelEvent).toHaveBeenCalledTimes(1);
+            expect(component.stopListeningToScrollEvents).toBeCalled();
         });
     });
 
-    // TODO: figure out how to test listenToWheelEvent and stopListeningToWheelEvent
+    describe('component methods', () => {
+        describe('setScrollingElement', () => {
+            it('should set the scrolling element to firstChild', () => {
+                const component = shallow(
+                    <ScrollLock>
+                        <div/>
+                    </ScrollLock>
+                ).instance();
+
+                assert.equal(component.scrollingElement, undefined);
+
+                const firstChild = <div>BLAH BLAH TEST BLAH</div>;
+                component.setScrollingElement({firstChild});
+
+                assert.equal(component.scrollingElement, firstChild);
+            });
+            it('should set the scrolling element to undefined if no argument passed', () => {
+                const component = shallow(
+                    <ScrollLock>
+                        <div/>
+                    </ScrollLock>
+                ).instance();
+
+                component.setScrollingElement();
+
+                assert.equal(component.scrollingElement, undefined);
+            });
+        });
+
+        describe('handleEventDelta', () => {
+            afterEach(() => {
+                jest.resetAllMocks();
+            });
+            it('should cancel scroll event if delta beaks lower limit', () => {
+                const component = shallow(
+                    <ScrollLock>
+                        <div/>
+                    </ScrollLock>
+                ).instance();
+                component.cancelScrollEvent = jest.fn();
+                component.scrollingElement = {
+                    scrollTop: 50,
+                    scrollHeight: 450,
+                    clientHeight: 400
+                };
+
+                component.handleEventDelta({}, -60);
+
+                // scroll top should be 0
+                assert.equal(component.scrollingElement.scrollTop, 0);
+                expect(component.cancelScrollEvent).toBeCalled();
+            });
+            it('should cancel scroll event if delta breaks upper limit', () => {
+                const scrollHeight = 450;
+                const component = shallow(
+                    <ScrollLock>
+                        <div/>
+                    </ScrollLock>
+                ).instance();
+                component.cancelScrollEvent = jest.fn();
+                component.scrollingElement = {
+                    scrollTop: 400,
+                    scrollHeight,
+                    clientHeight: 400
+                };
+
+                component.handleEventDelta({}, 60);
+
+                // scroll top should be scrollHeight of scrollingElement
+                assert.equal(component.scrollingElement.scrollTop, scrollHeight);
+                expect(component.cancelScrollEvent).toBeCalled();
+            });
+        });
+
+        describe('onWheelHandler', () => {
+            it('should call handleEventDelta with correct args', () => {
+                const synthEvent = {
+                    deltaY: 60
+                };
+                const component = shallow(
+                    <ScrollLock>
+                        <div/>
+                    </ScrollLock>
+                ).instance();
+                component.handleEventDelta = jest.fn();
+
+                component.onWheelHandler(synthEvent);
+
+                expect(component.handleEventDelta).toBeCalledWith(synthEvent, synthEvent.deltaY);
+                jest.resetAllMocks();
+            });
+        });
+
+        describe('onTouchStartHandler', () => {
+            it('should set this.touchStart', () => {
+                const touchClientY = 50;
+                const component = shallow(
+                    <ScrollLock>
+                        <div/>
+                    </ScrollLock>
+                ).instance();
+                component.onTouchStartHandler({
+                    changedTouches:[{clientY: touchClientY}]
+                });
+                assert.equal(component.touchStart, touchClientY);
+            });
+        });
+
+        describe('onTouchMoveHandler', () => {
+            it('should call handleEventDelta with correct args', () => {
+                const touchClientY = 70;
+                const touchStart = 50;
+                const synthEvent = {
+                    changedTouches:[{clientY: touchClientY}]
+                };
+                const component = shallow(
+                    <ScrollLock>
+                        <div/>
+                    </ScrollLock>
+                ).instance();
+                component.handleEventDelta = jest.fn();
+                component.touchStart = touchStart;
+
+                component.onTouchMoveHandler(synthEvent);
+
+                expect(component.handleEventDelta).toBeCalledWith(synthEvent, touchStart - touchClientY);
+            });
+        });
+
+        describe('cancelScrollEvent component method', () => {
+            it('should cancel scroll event', () => {
+                const synthEvent = {
+                    stopImmediatePropagation: jest.fn(),
+                    preventDefault: jest.fn()
+                };
+                const component = shallow(
+                    <ScrollLock>
+                        <div/>
+                    </ScrollLock>
+                ).instance();
+
+                component.cancelScrollEvent(synthEvent);
+
+                expect(synthEvent.stopImmediatePropagation).toBeCalled();
+                expect(synthEvent.preventDefault).toBeCalled();
+
+                jest.resetAllMocks();
+            });
+        });
+
+        describe('listenToScrollEvents component method', () => {
+            afterEach(() => {
+                jest.resetAllMocks();
+            });
+            it('should add the proper event listeners', () => {
+                const scrollingElement = {
+                    addEventListener: jest.fn()
+                };
+                const component = shallow(
+                    <ScrollLock>
+                        <div/>
+                    </ScrollLock>
+                ).instance();
+
+                component.listenToScrollEvents(scrollingElement);
+
+                const expectedCalls = [
+                    [ 'wheel', component.onWheelHandler, false ],
+                    [ 'touchstart', component.onTouchStartHandler, false ],
+                    [ 'touchmove', component.onTouchMoveHandler, false ]
+                ];
+                assert.deepEqual(scrollingElement.addEventListener.mock.calls, expectedCalls)
+
+                jest.resetAllMocks();
+            });
+        });
+        describe('stopListeningToScrollEvents component method', () => {
+            afterEach(() => {
+                jest.resetAllMocks();
+            });
+            it('should remove the proper event listeners', () => {
+                const scrollingElement = {
+                    removeEventListener: jest.fn()
+                };
+                const component = shallow(
+                    <ScrollLock>
+                        <div/>
+                    </ScrollLock>
+                ).instance();
+
+                component.stopListeningToScrollEvents(scrollingElement);
+                const expectedCalls = [
+                    [ 'wheel', component.onWheelHandler, false ],
+                    [ 'touchstart', component.onTouchStartHandler, false ],
+                    [ 'touchmove', component.onTouchMoveHandler, false ]
+                ];
+                assert.deepEqual(scrollingElement.removeEventListener.mock.calls, expectedCalls)
+                jest.resetAllMocks();
+            });
+        });
+    })
 });

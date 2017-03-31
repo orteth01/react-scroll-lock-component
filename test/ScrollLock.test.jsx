@@ -198,6 +198,56 @@ describe('ScrollLock', () => {
                 expect(component.handleEventDelta).toBeCalledWith(synthEvent, touchStart - touchClientY);
             });
         });
+        describe('onKeyDownHandler', () => {
+            let component;
+            let synthEvent;
+            beforeEach(() => {
+                component = shallow(
+                    <ScrollLock>
+                        <div/>
+                    </ScrollLock>
+                ).instance();
+                component.handleEventDelta = jest.fn();
+            })
+            afterEach(() => {
+                jest.resetAllMocks();
+            });
+            it('should call handleEventDelta with delta of 1 for space bar', () => {
+                synthEvent = {
+                    keyCode: 32
+                };
+                component.onKeyDownHandler(synthEvent);
+                expect(component.handleEventDelta).toBeCalledWith(synthEvent, 1);
+            });
+            it('should call handleEventDelta with delta of 1 for pageDown', () => {
+                synthEvent = {
+                    keyCode: 34
+                };
+                component.onKeyDownHandler(synthEvent);
+                expect(component.handleEventDelta).toBeCalledWith(synthEvent, 1);
+            });
+            it('should call handleEventDelta with delta of 1 for downArrow', () => {
+                synthEvent = {
+                    keyCode: 40
+                };
+                component.onKeyDownHandler(synthEvent);
+                expect(component.handleEventDelta).toBeCalledWith(synthEvent, 1);
+            });
+            it('should call handleEventDelta with delta of -1 for pageUp', () => {
+                synthEvent = {
+                    keyCode: 33
+                };
+                component.onKeyDownHandler(synthEvent);
+                expect(component.handleEventDelta).toBeCalledWith(synthEvent, -1);
+            });
+            it('should call handleEventDelta with delta of -1 for arrowUp', () => {
+                synthEvent = {
+                    keyCode: 38
+                };
+                component.onKeyDownHandler(synthEvent);
+                expect(component.handleEventDelta).toBeCalledWith(synthEvent, -1);
+            });
+        });
 
         describe('cancelScrollEvent component method', () => {
             it('should cancel scroll event', () => {
@@ -239,11 +289,10 @@ describe('ScrollLock', () => {
                 const expectedCalls = [
                     [ 'wheel', component.onWheelHandler, false ],
                     [ 'touchstart', component.onTouchStartHandler, false ],
-                    [ 'touchmove', component.onTouchMoveHandler, false ]
+                    [ 'touchmove', component.onTouchMoveHandler, false ],
+                    [ 'keydown', component.onKeyDownHandler, false ]
                 ];
                 assert.deepEqual(scrollingElement.addEventListener.mock.calls, expectedCalls)
-
-                jest.resetAllMocks();
             });
         });
         describe('stopListeningToScrollEvents component method', () => {
@@ -264,10 +313,10 @@ describe('ScrollLock', () => {
                 const expectedCalls = [
                     [ 'wheel', component.onWheelHandler, false ],
                     [ 'touchstart', component.onTouchStartHandler, false ],
-                    [ 'touchmove', component.onTouchMoveHandler, false ]
+                    [ 'touchmove', component.onTouchMoveHandler, false ],
+                    [ 'keydown', component.onKeyDownHandler, false ]
                 ];
                 assert.deepEqual(scrollingElement.removeEventListener.mock.calls, expectedCalls)
-                jest.resetAllMocks();
             });
         });
     })

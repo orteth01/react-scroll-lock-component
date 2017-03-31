@@ -1,6 +1,16 @@
 import React, { Component, PropTypes } from 'react';
 
-class ScrollLock extends Component {
+const upKeys = [
+    33, // pageUp
+    38  // arrowUp
+];
+const downKeys = [
+    32, // space
+    34, // pageDown
+    40  // arrowDown
+];
+
+export default class ScrollLock extends Component {
     static propTypes = {
         enabled: PropTypes.bool,
         className: PropTypes.string
@@ -20,6 +30,7 @@ class ScrollLock extends Component {
             'onWheelHandler',
             'onTouchStartHandler',
             'onTouchMoveHandler',
+            'onKeyDownHandler',
             'setScrollingElement',
             'cancelScrollEvent'
         ].forEach((func) => { this[func] = this[func].bind(this); });
@@ -83,6 +94,14 @@ class ScrollLock extends Component {
         this.handleEventDelta(e, delta);
     }
 
+    onKeyDownHandler(e) {
+        if (upKeys.indexOf(e.keyCode) >= 0) {
+            this.handleEventDelta(e, -1);
+        } else if (downKeys.indexOf(e.keyCode) >= 0) {
+            this.handleEventDelta(e, 1);
+        }
+    }
+
     cancelScrollEvent(e) {
         e.stopImmediatePropagation();
         e.preventDefault();
@@ -93,21 +112,27 @@ class ScrollLock extends Component {
         el.addEventListener('wheel', this.onWheelHandler, false);
         el.addEventListener('touchstart', this.onTouchStartHandler, false);
         el.addEventListener('touchmove', this.onTouchMoveHandler, false);
+        el.addEventListener('keydown', this.onKeyDownHandler, false);
     }
 
     stopListeningToScrollEvents(el) {
         el.removeEventListener('wheel', this.onWheelHandler, false);
         el.removeEventListener('touchstart', this.onTouchStartHandler, false);
         el.removeEventListener('touchmove', this.onTouchMoveHandler, false);
+        el.removeEventListener('keydown', this.onKeyDownHandler, false);
     }
 
     render() {
         return (
             <div className={this.props.className} ref={this.setScrollingElement}>
-                {this.props.children}
+                {React.cloneElement(
+                    this.props.children,
+                    {
+                        tabIndex: 0,
+                        style: { outline: 'none' }
+                    }
+                )}
             </div>
         );
     }
 }
-
-export default ScrollLock;

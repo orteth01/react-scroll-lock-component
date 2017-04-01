@@ -1,7 +1,8 @@
 import React from 'react';
 import assert from 'assert';
+import { shallow } from 'enzyme';
+
 import ScrollLock from '../src/ScrollLock';
-import {shallow} from 'enzyme';
 
 describe('ScrollLock', () => {
     describe('component lifecycle methods', () => {
@@ -11,7 +12,7 @@ describe('ScrollLock', () => {
         it('componentDidMount - enabled', () => {
             const component = shallow(
                 <ScrollLock>
-                    <div/>
+                    <div />
                 </ScrollLock>
             ).instance();
             component.listenToScrollEvents = jest.fn();
@@ -23,7 +24,7 @@ describe('ScrollLock', () => {
         it('componentDidMount - enabled=false', () => {
             const component = shallow(
                 <ScrollLock enabled={false}>
-                    <div/>
+                    <div />
                 </ScrollLock>
             ).instance();
             component.listenToScrollEvents = jest.fn();
@@ -35,7 +36,7 @@ describe('ScrollLock', () => {
         it('componentWillUnmount', () => {
             const component = shallow(
                 <ScrollLock enabled={false}>
-                    <div/>
+                    <div />
                 </ScrollLock>
             ).instance();
             component.stopListeningToScrollEvents = jest.fn();
@@ -47,24 +48,24 @@ describe('ScrollLock', () => {
         it('componentWillReceiveProps - disabled to enabled', () => {
             const component = shallow(
                 <ScrollLock enabled={false}>
-                    <div/>
+                    <div />
                 </ScrollLock>
             ).instance();
             component.listenToScrollEvents = jest.fn();
 
-            component.componentWillReceiveProps({enabled: true});
+            component.componentWillReceiveProps({ enabled: true });
 
             expect(component.listenToScrollEvents).toBeCalled();
         });
         it('componentWillReceiveProps - enabled to disabled', () => {
             const component = shallow(
                 <ScrollLock>
-                    <div/>
+                    <div />
                 </ScrollLock>
             ).instance();
             component.stopListeningToScrollEvents = jest.fn();
 
-            component.componentWillReceiveProps({enabled: false});
+            component.componentWillReceiveProps({ enabled: false });
 
             expect(component.stopListeningToScrollEvents).toBeCalled();
         });
@@ -75,21 +76,21 @@ describe('ScrollLock', () => {
             it('should set the scrolling element to firstChild', () => {
                 const component = shallow(
                     <ScrollLock>
-                        <div/>
+                        <div />
                     </ScrollLock>
                 ).instance();
 
                 assert.equal(component.scrollingElement, undefined);
 
                 const firstChild = <div>BLAH BLAH TEST BLAH</div>;
-                component.setScrollingElement({firstChild});
+                component.setScrollingElement({ firstChild });
 
                 assert.equal(component.scrollingElement, firstChild);
             });
             it('should set the scrolling element to undefined if no argument passed', () => {
                 const component = shallow(
                     <ScrollLock>
-                        <div/>
+                        <div />
                     </ScrollLock>
                 ).instance();
 
@@ -106,7 +107,7 @@ describe('ScrollLock', () => {
             it('should cancel scroll event if delta beaks lower limit', () => {
                 const component = shallow(
                     <ScrollLock>
-                        <div/>
+                        <div />
                     </ScrollLock>
                 ).instance();
                 component.cancelScrollEvent = jest.fn();
@@ -126,7 +127,7 @@ describe('ScrollLock', () => {
                 const scrollHeight = 450;
                 const component = shallow(
                     <ScrollLock>
-                        <div/>
+                        <div />
                     </ScrollLock>
                 ).instance();
                 component.cancelScrollEvent = jest.fn();
@@ -151,7 +152,7 @@ describe('ScrollLock', () => {
                 };
                 const component = shallow(
                     <ScrollLock>
-                        <div/>
+                        <div />
                     </ScrollLock>
                 ).instance();
                 component.handleEventDelta = jest.fn();
@@ -168,11 +169,11 @@ describe('ScrollLock', () => {
                 const touchClientY = 50;
                 const component = shallow(
                     <ScrollLock>
-                        <div/>
+                        <div />
                     </ScrollLock>
                 ).instance();
                 component.onTouchStartHandler({
-                    changedTouches:[{clientY: touchClientY}]
+                    changedTouches: [{ clientY: touchClientY }]
                 });
                 assert.equal(component.touchStart, touchClientY);
             });
@@ -183,11 +184,11 @@ describe('ScrollLock', () => {
                 const touchClientY = 70;
                 const touchStart = 50;
                 const synthEvent = {
-                    changedTouches:[{clientY: touchClientY}]
+                    changedTouches: [{ clientY: touchClientY }]
                 };
                 const component = shallow(
                     <ScrollLock>
-                        <div/>
+                        <div />
                     </ScrollLock>
                 ).instance();
                 component.handleEventDelta = jest.fn();
@@ -195,7 +196,8 @@ describe('ScrollLock', () => {
 
                 component.onTouchMoveHandler(synthEvent);
 
-                expect(component.handleEventDelta).toBeCalledWith(synthEvent, touchStart - touchClientY);
+                expect(component.handleEventDelta)
+                    .toBeCalledWith(synthEvent, touchStart - touchClientY);
             });
         });
         describe('onKeyDownHandler', () => {
@@ -204,46 +206,36 @@ describe('ScrollLock', () => {
             beforeEach(() => {
                 component = shallow(
                     <ScrollLock>
-                        <div/>
+                        <div />
                     </ScrollLock>
                 ).instance();
                 component.handleEventDelta = jest.fn();
-            })
+            });
             afterEach(() => {
                 jest.resetAllMocks();
             });
             it('should call handleEventDelta with delta of 1 for space bar', () => {
-                synthEvent = {
-                    keyCode: 32
-                };
+                synthEvent = { keyCode: 32 };
                 component.onKeyDownHandler(synthEvent);
                 expect(component.handleEventDelta).toBeCalledWith(synthEvent, 1);
             });
             it('should call handleEventDelta with delta of 1 for pageDown', () => {
-                synthEvent = {
-                    keyCode: 34
-                };
+                synthEvent = { keyCode: 34 };
                 component.onKeyDownHandler(synthEvent);
                 expect(component.handleEventDelta).toBeCalledWith(synthEvent, 1);
             });
             it('should call handleEventDelta with delta of 1 for downArrow', () => {
-                synthEvent = {
-                    keyCode: 40
-                };
+                synthEvent = { keyCode: 40 };
                 component.onKeyDownHandler(synthEvent);
                 expect(component.handleEventDelta).toBeCalledWith(synthEvent, 1);
             });
             it('should call handleEventDelta with delta of -1 for pageUp', () => {
-                synthEvent = {
-                    keyCode: 33
-                };
+                synthEvent = { keyCode: 33 };
                 component.onKeyDownHandler(synthEvent);
                 expect(component.handleEventDelta).toBeCalledWith(synthEvent, -1);
             });
             it('should call handleEventDelta with delta of -1 for arrowUp', () => {
-                synthEvent = {
-                    keyCode: 38
-                };
+                synthEvent = { keyCode: 38 };
                 component.onKeyDownHandler(synthEvent);
                 expect(component.handleEventDelta).toBeCalledWith(synthEvent, -1);
             });
@@ -257,7 +249,7 @@ describe('ScrollLock', () => {
                 };
                 const component = shallow(
                     <ScrollLock>
-                        <div/>
+                        <div />
                     </ScrollLock>
                 ).instance();
 
@@ -280,19 +272,19 @@ describe('ScrollLock', () => {
                 };
                 const component = shallow(
                     <ScrollLock>
-                        <div/>
+                        <div />
                     </ScrollLock>
                 ).instance();
 
                 component.listenToScrollEvents(scrollingElement);
 
                 const expectedCalls = [
-                    [ 'wheel', component.onWheelHandler, false ],
-                    [ 'touchstart', component.onTouchStartHandler, false ],
-                    [ 'touchmove', component.onTouchMoveHandler, false ],
-                    [ 'keydown', component.onKeyDownHandler, false ]
+                    ['wheel', component.onWheelHandler, false],
+                    ['touchstart', component.onTouchStartHandler, false],
+                    ['touchmove', component.onTouchMoveHandler, false],
+                    ['keydown', component.onKeyDownHandler, false]
                 ];
-                assert.deepEqual(scrollingElement.addEventListener.mock.calls, expectedCalls)
+                assert.deepEqual(scrollingElement.addEventListener.mock.calls, expectedCalls);
             });
         });
         describe('stopListeningToScrollEvents component method', () => {
@@ -305,19 +297,19 @@ describe('ScrollLock', () => {
                 };
                 const component = shallow(
                     <ScrollLock>
-                        <div/>
+                        <div />
                     </ScrollLock>
                 ).instance();
 
                 component.stopListeningToScrollEvents(scrollingElement);
                 const expectedCalls = [
-                    [ 'wheel', component.onWheelHandler, false ],
-                    [ 'touchstart', component.onTouchStartHandler, false ],
-                    [ 'touchmove', component.onTouchMoveHandler, false ],
-                    [ 'keydown', component.onKeyDownHandler, false ]
+                    ['wheel', component.onWheelHandler, false],
+                    ['touchstart', component.onTouchStartHandler, false],
+                    ['touchmove', component.onTouchMoveHandler, false],
+                    ['keydown', component.onKeyDownHandler, false]
                 ];
-                assert.deepEqual(scrollingElement.removeEventListener.mock.calls, expectedCalls)
+                assert.deepEqual(scrollingElement.removeEventListener.mock.calls, expectedCalls);
             });
         });
-    })
+    });
 });

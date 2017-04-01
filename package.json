@@ -4,12 +4,13 @@
   "description": "A React component wrapper that restricts scrolling capabilities of everything except for its children.",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint 'src/*.@(js|jsx)'",
+    "lint": "eslint 'src/*' 'test/*'",
     "clean": "rm -rf ./lib",
-    "build-modules": "babel ./src --optional runtime --out-dir ./lib --source-maps",
+    "build-modules": "babel ./src --out-dir ./lib",
     "build": "npm run clean && npm run build-modules",
     "test": "jest --config ./.jestrc",
-    "cover": "jest --config ./.jestrc --coverage"
+    "cover": "jest --config ./.jestrc --coverage",
+    "ci": "npm run lint && npm run cover"
   },
   "keywords": [
     "React",

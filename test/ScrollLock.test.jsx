@@ -128,6 +128,10 @@ describe('ScrollLock', () => {
                 component = scrollLockInstance();
                 component.handleEventDelta = jest.fn();
             });
+            it('should not call handleEventDelta if keydown target is not the scrolling element', () => {
+                component.onKeyDownHandler({ keyCode: 32, target: <input /> });
+                expect(component.handleEventDelta).toHaveBeenCalledTimes(0);
+            });
             it('should call handleEventDelta with delta of 1 for space bar', () => {
                 const synthEvent = { keyCode: 32 };
                 component.onKeyDownHandler(synthEvent);

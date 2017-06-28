@@ -95,6 +95,10 @@ export default class ScrollLock extends Component {
     }
 
     onKeyDownHandler(e) {
+        if (e.target !== this.scrollingElement) {
+            return;
+        }
+
         if (upKeys.indexOf(e.keyCode) >= 0) {
             this.handleEventDelta(e, -1);
         } else if (downKeys.indexOf(e.keyCode) >= 0) {

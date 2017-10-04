@@ -6,10 +6,10 @@ A React component wrapper that restricts scrolling capabilities of everything ex
 
 Wheel events, touchmove events, and key press events that affect page location (e.g. directional arrows, pageup/pagedown/spacebar) are all locked.
 
-### Demo
+## Demo
 Check out the demo [here](https://orteth01.github.io/react-scroll-lock-component-demo)!
 
-### Installation
+## Installation
 ```
 npm install react-scroll-lock-component
 ```
@@ -18,34 +18,38 @@ or
 yarn add react-scroll-lock-component
 ```
 
-### Usage
+## Usage
+
 ```js
-import React, { Component } from 'react';
+import React from 'react';
 import ScrollLock from 'react-scroll-lock-component';
 
-export default () => {
+export default () => (
     <div>
         <ScrollLock>
             <div> 
                 {/*
-                unlike normal scroll functionality, when the user scrolls this
-                div and reaches the beginning or end nothing else on the page will scroll
+                    unlike normal scroll functionality, when the user scrolls this
+                    div and reaches the beginning or end nothing else on the page will scroll
                 */}
             </div>
         </ScrollLock>
         <div>
-            {/* scrolling elsewhere on the page will be normal */}
+            {/* scrolling outside of the scroll lock will remain normal */}
         </div>
-      </div>
-    );
-}
+    </div>
+);
 ```
 
-### Contributing
-Please tag orteth01 as reviewer when you create a pull request
+### optional props
 
-### Credits
+|Prop|description|default value|
+|:-:|:-:|:-:|
+| enabled|programatically enable or disable the scroll lock|`true`|
+|className|apply custom styles to the scroll lock component|`''`|
+
+## Credits
 Adapted from [this old mixin](http://codepen.io/somethingkindawierd/post/react-mixin-scroll-lock)
 
-### License
+## License
 MIT

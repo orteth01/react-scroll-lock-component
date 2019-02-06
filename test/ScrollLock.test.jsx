@@ -30,16 +30,18 @@ describe('ScrollLock', () => {
             componentInstance.componentWillUnmount();
             expect(componentInstance.stopListeningToScrollEvents).toBeCalled();
         });
-        it('componentWillReceiveProps - disabled to enabled', () => {
-            const componentInstance = mountScrollLock({ enabled: false }).instance();
+        it('componentDidUpdate - disabled to enabled', () => {
+            const component = mountScrollLock({ enabled: false });
+            const componentInstance = component.instance();
             componentInstance.listenToScrollEvents = jest.fn();
-            componentInstance.componentWillReceiveProps({ enabled: true });
+            component.setProps({ enabled: true });
             expect(componentInstance.listenToScrollEvents).toBeCalled();
         });
-        it('componentWillReceiveProps - enabled to disabled', () => {
-            const componentInstance = mountScrollLock().instance();
+        it('componentDidUpdate - enabled to disabled', () => {
+            const component = mountScrollLock();
+            const componentInstance = component.instance();
             componentInstance.stopListeningToScrollEvents = jest.fn();
-            componentInstance.componentWillReceiveProps({ enabled: false });
+            component.setProps({ enabled: false });
             expect(componentInstance.stopListeningToScrollEvents).toBeCalled();
         });
     });

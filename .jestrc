@@ -9,6 +9,9 @@
         "__snapshots__",
         "<rootDir>/node_modules/"
     ],
+    "setupFiles": [
+        "<rootDir>/test/setup.js"
+    ],
 
     "coverageDirectory": "./coverage",
     "coverageThreshold": {

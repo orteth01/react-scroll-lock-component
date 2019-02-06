@@ -38,17 +38,19 @@ export default class ScrollLock extends Component {
     }
 
     componentDidMount() {
-        if (this.props.enabled) {
+        if (this.props.enabled && this.scrollingElement) {
             this.listenToScrollEvents(this.scrollingElement);
         }
     }
     componentWillUnmount() {
-        this.stopListeningToScrollEvents(this.scrollingElement);
+        if (this.scrollingElement) {
+            this.stopListeningToScrollEvents(this.scrollingElement);
+        }
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (this.props.enabled !== nextProps.enabled) {
-            const fn = nextProps.enabled ?
+    componentDidUpdate(prevProps) {
+        if (this.props.enabled !== prevProps.enabled) {
+            const fn = this.props.enabled ?
                 this.listenToScrollEvents :
                 this.stopListeningToScrollEvents;
 

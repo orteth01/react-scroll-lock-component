@@ -1,9 +1,11 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import ScrollLock from '../src/ScrollLock';
 
-const scrollLockInstance = (props = {}) =>
-    shallow(<ScrollLock {...props}><div /></ScrollLock>).instance();
+const mountScrollLock = (props = {}) =>
+    mount(<ScrollLock {...props}><div /></ScrollLock>);
+const shallowScrollLock = (props = {}) =>
+    shallow(<ScrollLock {...props}><div /></ScrollLock>);
 
 describe('ScrollLock', () => {
     afterEach(() => {
@@ -11,93 +13,93 @@ describe('ScrollLock', () => {
     });
     describe('component lifecycle methods', () => {
         it('componentDidMount - enabled', () => {
-            const component = scrollLockInstance();
-            component.listenToScrollEvents = jest.fn();
-            component.componentDidMount();
-            expect(component.listenToScrollEvents).toBeCalled();
+            const componentInstance = mountScrollLock().instance();
+            componentInstance.listenToScrollEvents = jest.fn();
+            componentInstance.componentDidMount();
+            expect(componentInstance.listenToScrollEvents).toBeCalled();
         });
         it('componentDidMount - enabled=false', () => {
-            const component = scrollLockInstance({ enabled: false });
-            component.listenToScrollEvents = jest.fn();
-            component.componentDidMount();
-            expect(component.listenToScrollEvents).toHaveBeenCalledTimes(0);
+            const componentInstance = mountScrollLock({ enabled: false }).instance();
+            componentInstance.listenToScrollEvents = jest.fn();
+            componentInstance.componentDidMount();
+            expect(componentInstance.listenToScrollEvents).toHaveBeenCalledTimes(0);
         });
         it('componentWillUnmount', () => {
-            const component = scrollLockInstance();
-            component.stopListeningToScrollEvents = jest.fn();
-            component.componentWillUnmount();
-            expect(component.stopListeningToScrollEvents).toBeCalled();
+            const componentInstance = mountScrollLock().instance();
+            componentInstance.stopListeningToScrollEvents = jest.fn();
+            componentInstance.componentWillUnmount();
+            expect(componentInstance.stopListeningToScrollEvents).toBeCalled();
         });
         it('componentWillReceiveProps - disabled to enabled', () => {
-            const component = scrollLockInstance({ enabled: false });
-            component.listenToScrollEvents = jest.fn();
-            component.componentWillReceiveProps({ enabled: true });
-            expect(component.listenToScrollEvents).toBeCalled();
+            const componentInstance = mountScrollLock({ enabled: false }).instance();
+            componentInstance.listenToScrollEvents = jest.fn();
+            componentInstance.componentWillReceiveProps({ enabled: true });
+            expect(componentInstance.listenToScrollEvents).toBeCalled();
         });
         it('componentWillReceiveProps - enabled to disabled', () => {
-            const component = scrollLockInstance();
-            component.stopListeningToScrollEvents = jest.fn();
-            component.componentWillReceiveProps({ enabled: false });
-            expect(component.stopListeningToScrollEvents).toBeCalled();
+            const componentInstance = mountScrollLock().instance();
+            componentInstance.stopListeningToScrollEvents = jest.fn();
+            componentInstance.componentWillReceiveProps({ enabled: false });
+            expect(componentInstance.stopListeningToScrollEvents).toBeCalled();
         });
     });
     describe('component methods', () => {
-        let component;
+        let instance;
         beforeEach(() => {
-            component = scrollLockInstance();
+            instance = shallowScrollLock().instance();
         });
         describe('setScrollingElement', () => {
             it('should set the scrolling element to firstChild', () => {
-                expect(component.scrollingElement).toBe(undefined);
+                expect(instance.scrollingElement).toBe(undefined);
                 const firstChild = <div>BLAH BLAH TEST BLAH</div>;
-                component.setScrollingElement({ firstChild });
-                expect(component.scrollingElement).toBe(firstChild);
+                instance.setScrollingElement({ firstChild });
+                expect(instance.scrollingElement).toBe(firstChild);
             });
             it('should set the scrolling element to undefined if no argument passed', () => {
-                component.setScrollingElement();
-                expect(component.scrollingElement).toBe(undefined);
+                instance.setScrollingElement();
+                expect(instance.scrollingElement).toBe(undefined);
             });
         });
         describe('handleEventDelta', () => {
             it('should cancel scroll event if delta breaks lower limit', () => {
-                component.cancelScrollEvent = jest.fn();
-                component.scrollingElement = {
+                instance.cancelScrollEvent = jest.fn();
+                instance.scrollingElement = {
                     scrollTop: 50,
                     scrollHeight: 450,
                     clientHeight: 400
                 };
-                component.handleEventDelta({}, -60);
-                expect(component.scrollingElement.scrollTop).toBe(0);
-                expect(component.cancelScrollEvent).toBeCalled();
+                instance.handleEventDelta({}, -60);
+                expect(instance.scrollingElement.scrollTop).toBe(0);
+                expect(instance.cancelScrollEvent).toBeCalled();
             });
             it('should cancel scroll event if delta breaks upper limit', () => {
                 const scrollHeight = 450;
-                component.cancelScrollEvent = jest.fn();
-                component.scrollingElement = {
+                instance.cancelScrollEvent = jest.fn();
+                instance.scrollingElement = {
                     scrollTop: 400,
                     scrollHeight,
                     clientHeight: 400
                 };
-                component.handleEventDelta({}, 60);
-                expect(component.scrollingElement.scrollTop).toBe(scrollHeight);
-                expect(component.cancelScrollEvent).toBeCalled();
+                instance.handleEventDelta({}, 60);
+                expect(instance.scrollingElement.scrollTop).toBe(scrollHeight);
+                expect(instance.cancelScrollEvent).toBeCalled();
             });
         });
         describe('onWheelHandler', () => {
             it('should call handleEventDelta with correct args', () => {
                 const synthEvent = { deltaY: 60 };
-                component.handleEventDelta = jest.fn();
-                component.onWheelHandler(synthEvent);
-                expect(component.handleEventDelta).toBeCalledWith(synthEvent, synthEvent.deltaY);
+                instance.handleEventDelta = jest.fn();
+                instance.onWheelHandler(synthEvent);
+                expect(instance.handleEventDelta).toBeCalledWith(synthEvent, synthEvent.deltaY);
             });
         });
         describe('onTouchStartHandler', () => {
             it('should set this.touchStart', () => {
                 const touchClientY = 50;
-                component.onTouchStartHandler({
+                instance.onTouchStartHandler({
                     changedTouches: [{ clientY: touchClientY }]
                 });
-                expect(component.touchStart).toBe(touchClientY);
+                expect(instance.touchStart).toBe(touchClientY);
             });
         });
         describe('onTouchMoveHandler', () => {
@@ -107,45 +109,45 @@ describe('ScrollLock', () => {
                 const synthEvent = {
                     changedTouches: [{ clientY: touchClientY }]
                 };
-                component.handleEventDelta = jest.fn();
-                component.touchStart = touchStart;
-                component.onTouchMoveHandler(synthEvent);
-                expect(component.handleEventDelta)
+                instance.handleEventDelta = jest.fn();
+                instance.touchStart = touchStart;
+                instance.onTouchMoveHandler(synthEvent);
+                expect(instance.handleEventDelta)
                     .toBeCalledWith(synthEvent, touchStart - touchClientY);
             });
         });
         describe('onKeyDownHandler', () => {
             beforeEach(() => {
-                component.handleEventDelta = jest.fn();
+                instance.handleEventDelta = jest.fn();
             });
             it('should not call handleEventDelta if keydown target is not the scrolling element', () => {
-                component.onKeyDownHandler({ keyCode: 32, target: <input /> });
-                expect(component.handleEventDelta).toHaveBeenCalledTimes(0);
+                instance.onKeyDownHandler({ keyCode: 32, target: <input /> });
+                expect(instance.handleEventDelta).toHaveBeenCalledTimes(0);
             });
             it('should call handleEventDelta with delta of 1 for space bar', () => {
                 const synthEvent = { keyCode: 32 };
-                component.onKeyDownHandler(synthEvent);
-                expect(component.handleEventDelta).toBeCalledWith(synthEvent, 1);
+                instance.onKeyDownHandler(synthEvent);
+                expect(instance.handleEventDelta).toBeCalledWith(synthEvent, 1);
             });
             it('should call handleEventDelta with delta of 1 for pageDown', () => {
                 const synthEvent = { keyCode: 34 };
-                component.onKeyDownHandler(synthEvent);
-                expect(component.handleEventDelta).toBeCalledWith(synthEvent, 1);
+                instance.onKeyDownHandler(synthEvent);
+                expect(instance.handleEventDelta).toBeCalledWith(synthEvent, 1);
             });
             it('should call handleEventDelta with delta of 1 for downArrow', () => {
                 const synthEvent = { keyCode: 40 };
-                component.onKeyDownHandler(synthEvent);
-                expect(component.handleEventDelta).toBeCalledWith(synthEvent, 1);
+                instance.onKeyDownHandler(synthEvent);
+                expect(instance.handleEventDelta).toBeCalledWith(synthEvent, 1);
             });
             it('should call handleEventDelta with delta of -1 for pageUp', () => {
                 const synthEvent = { keyCode: 33 };
-                component.onKeyDownHandler(synthEvent);
-                expect(component.handleEventDelta).toBeCalledWith(synthEvent, -1);
+                instance.onKeyDownHandler(synthEvent);
+                expect(instance.handleEventDelta).toBeCalledWith(synthEvent, -1);
             });
             it('should call handleEventDelta with delta of -1 for arrowUp', () => {
                 const synthEvent = { keyCode: 38 };
-                component.onKeyDownHandler(synthEvent);
-                expect(component.handleEventDelta).toBeCalledWith(synthEvent, -1);
+                instance.onKeyDownHandler(synthEvent);
+                expect(instance.handleEventDelta).toBeCalledWith(synthEvent, -1);
             });
         });
         describe('cancelScrollEvent', () => {
@@ -154,7 +156,7 @@ describe('ScrollLock', () => {
                     stopImmediatePropagation: jest.fn(),
                     preventDefault: jest.fn()
                 };
-                component.cancelScrollEvent(synthEvent);
+                instance.cancelScrollEvent(synthEvent);
                 expect(synthEvent.stopImmediatePropagation).toBeCalled();
                 expect(synthEvent.preventDefault).toBeCalled();
             });
@@ -164,12 +166,12 @@ describe('ScrollLock', () => {
                 const scrollingElement = {
                     addEventListener: jest.fn()
                 };
-                component.listenToScrollEvents(scrollingElement);
+                instance.listenToScrollEvents(scrollingElement);
                 const expectedCalls = [
-                    ['wheel', component.onWheelHandler, false],
-                    ['touchstart', component.onTouchStartHandler, false],
-                    ['touchmove', component.onTouchMoveHandler, false],
-                    ['keydown', component.onKeyDownHandler, false]
+                    ['wheel', instance.onWheelHandler, false],
+                    ['touchstart', instance.onTouchStartHandler, false],
+                    ['touchmove', instance.onTouchMoveHandler, false],
+                    ['keydown', instance.onKeyDownHandler, false]
                 ];
                 expect(scrollingElement.addEventListener.mock.calls).toEqual(expectedCalls);
             });
@@ -179,12 +181,12 @@ describe('ScrollLock', () => {
                 const scrollingElement = {
                     removeEventListener: jest.fn()
                 };
-                component.stopListeningToScrollEvents(scrollingElement);
+                instance.stopListeningToScrollEvents(scrollingElement);
                 const expectedCalls = [
-                    ['wheel', component.onWheelHandler, false],
-                    ['touchstart', component.onTouchStartHandler, false],
-                    ['touchmove', component.onTouchMoveHandler, false],
-                    ['keydown', component.onKeyDownHandler, false]
+                    ['wheel', instance.onWheelHandler, false],
+                    ['touchstart', instance.onTouchStartHandler, false],
+                    ['touchmove', instance.onTouchMoveHandler, false],
+                    ['keydown', instance.onKeyDownHandler, false]
                 ];
                 expect(scrollingElement.removeEventListener.mock.calls).toEqual(expectedCalls);
             });

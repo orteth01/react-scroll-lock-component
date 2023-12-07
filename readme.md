@@ -1,3 +1,8 @@
+# ⚠️ DEPRECATED
+
+CSS is awesome and handles this
+https://developer.mozilla.org/en-US/docs/Web/CSS/overscroll-behavior
+
 # react-scroll-lock-component
 [![npm version](https://badge.fury.io/js/react-scroll-lock-component.svg)](https://badge.fury.io/js/react-scroll-lock-component)
 [![Build Status](https://travis-ci.org/orteth01/react-scroll-lock-component.svg?branch=master)](https://travis-ci.org/orteth01/react-scroll-lock-component)
